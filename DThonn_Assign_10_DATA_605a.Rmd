@@ -1,0 +1,116 @@
+---
+title: "DATA_605_Assignment_10_DThonn"
+file: DThonn_Assign10_DATA_605
+name: Daniel Thonn
+output:
+  html_document: default
+  pdf_document: default
+course: DATA 605 CUNY MSDA program
+---
+
+** DATA_605_Assignment_10_Thonn - Markov Chains  **
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+``````{r, echo=TRUE}
+# install libraries if needed
+#install.packages("permutations")
+#library(permutations)
+
+#install.packages('gtools')
+#library(gtools)
+
+```
+Smith is in jail and has 1 dollar; he can get out on bail if he has 8 dollars.
+A guard agrees to make a series of bets with him. If Smith bets A dollars,
+he wins A dollars with probability .4 and loses A dollars with probability .6.
+Find the probability that he wins 8 dollars before losing all of his money if
+(a) he bets 1 dollar each time (timid strategy).
+(b) he bets, each time, as much as possible but not more than necessary to
+bring his fortune up to 8 dollars (bold strategy).
+(c) Which strategy gives Smith the better chance of getting out of jail? 
+
+** Assignment 10 - Ch.11 **
+(a) Timid: he bets 1 dollar each time (timid strategy).
+
+This situation is a Markov chain that has 9 steps (0 to 8)
+
+See page 418 of the text (Intro to Probability, Grinstead,Snell) describing the Fundamental Matrix
+for a Markov Absorbing Chain
+
+$$ if~in~the~1~state~ s_j ~after ~k~steps:~ P(X^k = 1)= q_{ij}^k$$
+$$ if~in~the~0~state~ s_j ~after ~k~steps: 1 - q_{ij}^k$$
+
+state_0 = $0
+state_1 = $1
+state_2 = $2
+state_3 = $3
+state_4 = $4
+state_5 = $5
+state_6 = $6
+state_7 = $7
+state_8 = $8
+
+
+
+
+``````{r, echo=TRUE}
+
+PWin <- 0.4
+PLoss <- 1 - PWin
+state1 <- 1
+state8 <- 8
+
+pr_timid <- (1 - (PLoss/PWin)^state1)/(1 - (PLoss/PWin)^state8)
+pr_timid
+
+#Result: [1] 0.02030135
+
+
+```
+
+(b) Bold: he bets, each time, as much as possible but not more than necessary to
+bring his fortune up to 8 dollars (bold strategy).
+
+For maximun win the Markav Chain must be: s=1 to s=2 to s=4 to arrive at s=8.
+
+``````{r, echo=TRUE}
+
+PWin <- 0.4
+PLoss <- 1 - PWin
+state1b <- 1
+state2b <- 2
+
+#for each step of 1 to the next step 2
+
+ps1 <- (1 - (PLoss/PWin)^state1b)/(1 - (PLoss/PWin)^state2b)
+ps1
+
+ps2 <- (1 - (PLoss/PWin)^state1b)/(1 - (PLoss/PWin)^state2b)
+ps2
+
+ps4 <- (1 - (PLoss/PWin)^state1b)/(1 - (PLoss/PWin)^state2b)
+ps4
+
+Ps1_ps8 <-ps1 * ps2 * ps4 
+Ps1_ps8
+# Result: [1] 0.064
+
+
+```
+
+(c) Which strategy gives Smith the better chance of getting out of jail? 
+
+Examining the results of (a) and (b) it can be seen it is best to go wit the Bold strategy with higher probability.
+
+** END **
+
+
+``````{r, echo=TRUE}
+
+```
+
+
